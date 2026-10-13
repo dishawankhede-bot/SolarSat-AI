@@ -1,0 +1,26 @@
+column_name,unit,calculation_or_definition,source,data_status
+Recording_Session,text,Original workbook sheet name,NEPALISAT(3).xlsx,Metadata from source
+Recording_Date,date,Date inferred from sheet name,NEPALISAT(3).xlsx sheet names,Inferred metadata
+timestamp,datetime,Recording_Date + Time Stamp interpreted as elapsed seconds; verify unit from dataset documentation,NepalSat Time Stamp and sheet date,Derived; time-unit assumption
+Ppy_Power_W,W,"Vpy (mV) × Ipy (mA) / 1,000,000",NepalSat voltage and current columns,Derived
+Ppx_Power_W,W,"Vpx (mV) × Ipx (mA) / 1,000,000",NepalSat voltage and current columns,Derived
+Pmz_Power_W,W,"Vmz (mV) × Imz (mA) / 1,000,000",NepalSat voltage and current columns,Derived
+Pmx_Power_W,W,"Vmx (mV) × Imx (mA) / 1,000,000",NepalSat voltage and current columns,Derived
+Ppz_Power_W,W,"Vpz (mV) × Ipz (mA) / 1,000,000",NepalSat voltage and current columns,Derived
+solar_array_power_W,W,Sum of the five calculated panel-direction power columns; treated as a project-level proxy,NepalSat derived panel powers,Derived; summation assumption
+battery_power_W,W,Vbat (V) × Ibatt(mA) / 1000,NepalSat battery voltage and current,Derived
+mean_panel_temperature_C,°C,Mean of available panel temperature columns in °C,NepalSat temperature columns,Derived
+session_reference_power_W,W,95th percentile of solar_array_power_W within each recording session,NepalSat derived solar_array_power_W,Derived baseline
+session_relative_power_drop_percent,%,"max(0, 1 - current power / session 95th percentile) × 100; not validated long-term degradation",NepalSat derived solar_array_power_W,Derived indicator; not ground-truth degradation
+feature_provenance_note,text,Explains source-derived vs simulated optimization fields,Project processing,Metadata
+total_power_demand_W_simulated,W,Scenario demand centered on median observed solar power scale plus seeded noise,Explicit project scenario assumptions; reference telemetry used for feature design only,Simulated/algorithmic; not measured telemetry
+critical_load_W_simulated,W,70% of simulated total demand,Explicit project scenario assumptions; reference telemetry used for feature design only,Simulated/algorithmic; not measured telemetry
+optional_load_W_simulated,W,30% of simulated total demand,Explicit project scenario assumptions; reference telemetry used for feature design only,Simulated/algorithmic; not measured telemetry
+battery_capacity_Wh_assumed,Wh,Assumed constant 10 Wh for demonstration; not source telemetry,Explicit project scenario assumptions; reference telemetry used for feature design only,Simulated/algorithmic; not measured telemetry
+battery_soc_percent_simulated,%,"Illustrative cumulative energy balance, clipped to 20–100%",Explicit project scenario assumptions; reference telemetry used for feature design only,Simulated/algorithmic; not measured telemetry
+available_energy_Wh_simulated,Wh,Assumed battery capacity × simulated SOC / 100,Explicit project scenario assumptions; reference telemetry used for feature design only,Simulated/algorithmic; not measured telemetry
+energy_surplus_or_deficit_Wh_simulated,Wh per sample interval,(solar power - simulated demand) / 3600; assumes 1-second interval for energy conversion,Explicit project scenario assumptions; reference telemetry used for feature design only,Simulated/algorithmic; not measured telemetry
+optimized_critical_load_W_simulated,W,Rule-based allocation: prioritize critical load using generated power plus a limited battery-energy proxy,Explicit project scenario assumptions; reference telemetry used for feature design only,Simulated/algorithmic; not measured telemetry
+optimized_optional_load_W_simulated,W,Allocate remaining solar power to optional load after critical allocation,Explicit project scenario assumptions; reference telemetry used for feature design only,Simulated/algorithmic; not measured telemetry
+optimization_status_simulated,category,Indicates whether simulated critical load target is met,Explicit project scenario assumptions; reference telemetry used for feature design only,Simulated/algorithmic; not measured telemetry
+energy_saving_percent_simulated,%,Fraction of simulated baseline demand not allocated by the simple rule; not measured savings,Explicit project scenario assumptions; reference telemetry used for feature design only,Simulated/algorithmic; not measured telemetry
